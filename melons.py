@@ -6,6 +6,11 @@ from datetime import datetime, date
 # create Abstract class
 
 
+class TooManyMelonsError(ValueError):
+    def __init__(self):
+        super().__init__('No more than 100 melons!')
+
+
 class AbstractMelonOrder():
     """An abstract base class that other Melon Orders inherit from."""
     def __init__(self, species, qty, order_type, tax=0):
@@ -15,6 +20,8 @@ class AbstractMelonOrder():
         self.order_type = order_type
         self.tax = tax
         self.datetime = datetime.today()
+        if self.qty > 100:
+            raise TooManyMelonsError
 
     def get_base_price(self):
 
@@ -23,9 +30,8 @@ class AbstractMelonOrder():
         hour_day = self.datetime.hour
         if (weekday != 5 and weekday != 6) and (hour_day >= 8 and hour_day <= 11):
             base_price = base_price + 4
-            import pdb; pdb.set_trace()
+            # import pdb; pdb.set_trace()
         return base_price
-
 
     def get_total(self):
         """Calculate price, including tax."""
