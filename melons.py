@@ -1,6 +1,7 @@
 """Classes for melon orders."""
 
 from random import randint
+from datetime import datetime, date
 
 # create Abstract class
 
@@ -13,11 +14,18 @@ class AbstractMelonOrder():
         self.shipped = False
         self.order_type = order_type
         self.tax = tax
+        self.datetime = datetime.today()
 
     def get_base_price(self):
 
         base_price = randint(5, 10)
+        weekday = date.weekday(self.datetime)
+        hour_day = self.datetime.hour
+        if (weekday != 5 and weekday != 6) and (hour_day >= 8 and hour_day <= 11):
+            base_price = base_price + 4
+            import pdb; pdb.set_trace()
         return base_price
+
 
     def get_total(self):
         """Calculate price, including tax."""
