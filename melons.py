@@ -5,7 +5,7 @@
 
 class AbstractMelonOrder():
     """An abstract base class that other Melon Orders inherit from."""
-    def __init__(self, species, qty, order_type, tax):
+    def __init__(self, species, qty, order_type, tax=0):
         self.species = species
         self.qty = qty
         self.shipped = False
@@ -63,3 +63,14 @@ class InternationalMelonOrder(AbstractMelonOrder):
         """Return the country code."""
 
         return self.country_code
+
+
+class GovernmentMelonOrder(AbstractMelonOrder):
+    """ New class for government orders. No tax. New method for inspections."""
+
+    def __init__(self, species, qty):
+        super().__init__(species, qty, "domestic")
+        self.passed_inspection = False
+
+    def mark_inspection(self, passed):
+        self.passed_inspection = passed
